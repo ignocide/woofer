@@ -1,0 +1,110 @@
+/**
+ * Body CSS
+ */
+html,
+body {
+  height: 100%;
+}
+
+html,
+body,
+input,
+textarea,
+buttons {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+
+/**
+ * Sidebar CSS
+ */
+#sidebar {
+  background-color: #E57373;
+  padding: 15px;
+}
+
+@media (min-width: 768px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    height: 100%;
+    padding-top: 30px;
+  }
+}
+
+/**
+ * Content CSS
+ */
+@media (min-width: 768px) {
+  #content {
+    margin-left: 180px;
+  }
+}
+
+
+.player-wapper {
+  width: 100%;
+
+  iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
+
+.result-list-wrapper{
+  padding: 10px;
+
+  ul{
+    padding: 0px;
+  }
+
+  .result-item{
+    display: block;
+    height: 75px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      float: left;
+      width: 100px;
+      height: 75px;
+    }
+
+    .summary{
+      margin-left: 100px;
+      padding-left: 10px;
+      margin-right: 50px;
+      padding: 10px;
+      a{
+        color: black;
+        text-overflow: ellipsis;
+
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+
+    .btn-add-wrapper{
+      position: absolute;
+      float: right;
+      width: 50px;
+      right: 10px;
+      top: 0px;
+      height: 75px;
+      padding-top: 15px;
+      
+      button{
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+}
