@@ -1,28 +1,15 @@
+'use strict'
+const express = require('express')
+const config = require('./config/config')
+const db = require('./app/models')
 
-var express = require('express'),
-  config = require('./config/config'),
-  db = require('./app/models')
-
-var app = express()
+const app = express()
 
 require('./config/express')(app, config)
-//
-// db.sequelize
-//   .sync()
-//   .then(function () {
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
 
-// app.listen(config.port, function () {
-//   console.log('Express server listening on port ' + config.port)
-// })
-io.on('connection', function (socket) {
-  // console.log('a user connected')
-  // socket.on('my other event', function (data) {
-  //   console.log(data)
-  // })
-})
-io.emit('news', { hello: 'world' })
+require('./app/io/index')(io)
 
 http.listen(3000, function () {
   console.log('Express server and socket.io listening on port ' + config.port)

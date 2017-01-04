@@ -56,9 +56,10 @@ buttons {
 }
 
 
-.result-list-wrapper{
+.result-list-wrapper,.play-list-wrapper{
   padding: 10px;
-
+  max-height: 500px;
+  overflow: auto;
   ul{
     padding: 0px;
   }
@@ -99,7 +100,7 @@ buttons {
       top: 0px;
       height: 75px;
       padding-top: 15px;
-      
+
       button{
         margin-left: auto;
         margin-right: auto;

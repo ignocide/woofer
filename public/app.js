@@ -2,7 +2,6 @@
 var app = angular.module('woofer'
     , ['woofer.config', 'mui', 'ngResource', 'woofer.api', 'youtube-embed' ])
 
-var host = null
 var socket = null
 app.run(function ($rootScope, conf) {
   var initGapi = function () {
@@ -18,18 +17,18 @@ app.run(function ($rootScope, conf) {
   gapi.load('client', initGapi)
   socket = io.connect()
 
-  socket.on('connection', function (client) {
-    console.log('connected!', client)
-  })
-
-  socket.on('news', function (data) {
-    console.log(data)
+  socket.on('connect', function (client) {
+    console.log('connected!')
   })
 })
 
+app.factory('playlist', function () {
+
+})
 app.factory('playSvc', function () {
   var SVC = {
-    id: null
+    id: null,
+    index: null
   }
 
   return SVC
@@ -37,74 +36,142 @@ app.factory('playSvc', function () {
 
 // https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=YOUR_API_KEY
 app.config(function () {
-  // $routeProvider
-  //
-  //       // route for the home page
-  //       .when('/', {
-  //           // templateUrl : './templates/home.html',
-  //           // controller  : 'homeCtrl'
-  //         redirectTo: '/'
-  //       })
-  //
-  //       .when('/home', {
-  //         templateUrl: './templates/home.html',
-  //         controller: 'homeCtrl'
-  //       })
-  //
-  //       .otherwise({
-  //         redirectTo: '/home'
-  //       })
 })
 
 app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
   $scope.youtube_id = null
+  $scope.playerVars = {
+    rel: 0
+  }
+  $scope.playlist = []
+
+  $scope.$on('youtube.player.ended', function ($event, player) {
+    let index = playSvc.index
+
+    // 재생이 끝났을 경우 예외처리
+    try {
+      if (index != null) {
+        let nextIndex = null
+        if (index == $scope.playlist.length - 1) {
+          nextIndex = 0
+        }
+        else {
+          nextIndex = index + 1
+        }
+        let nextItem = $scope.playlist[index]
+        let beforeItemId = playSvc.id
+        $scope.play(nextItem, nextIndex)
+        if (nextItem.id.videoId == beforeItemId) {
+          player.playVideo()
+        }
+      }
+      else {
+        $scope.play(null, 0)
+      }
+    }
+    catch (err) {
+
+    }
+  })
+
+  $scope.$on('youtube.player.ready', function ($event, player) {
+    player.playVideo()
+  })
+
+  // playSvc watcher
   $scope.$watch(function () {
     return playSvc.id
   }, function () {
     $scope.youtube_id = playSvc.id
   })
+
+  $scope.reqPlay = function (index) {
+    socket.emit('play', {index: index})
+  }
+  // player control funcs
+  $scope.play = function (item, index) {
+    if (index != undefined) {
+      item = $scope.playlist[index]
+    }
+    else {
+      index = null
+    }
+    playSvc.id = item.id.videoId
+    playSvc.index = index
+    if ($scope.$$phase != '$apply') {
+      $scope.$apply()
+    }
+  }
+
+  $scope.del = function (index) {
+    socket.emit('delVideo', {index: index})
+  }
+
+  socket.on('playlistInit', function (data) {
+    var list = data.list
+    $scope.playlist = list
+    $scope.$apply()
+  })
+
+  socket.on('play', function (data) {
+    $scope.play(null, data.index)
+  })
 })
 
 app.controller('roomCtrl', function ($rootScope, $scope) {
   $scope.room = ''
-  $scope.joinRoom = function () {
-    console.log('!!!!')
-    if ($scope.room != '') {
-      console.log($scope.room)
-      socket.join($scope.room)
-      socket.on('news', function (data) {
-        console.log(data)
-      })
-      socket.to('room').emit('some event')
-      socket.to('room').emit('some event')
-      socket.to('room').emit('some event')
-      socket.to('room').emit('some event')
-    }
-  }
 })
 
 app.controller('searchCtrl', function ($rootScope, $scope, playSvc) {
-  $scope.query = '나윤권'
+  $scope.query = ''
   $scope.resultList = []
 
+  var loading = false
+  var beforeQuery = null
+  var nextPageToken = null
+  var page = 1
   $scope.search = function () {
-    if ($scope.query != '') {
-      var request = gapi.client.youtube.search.list({
+    if ($scope.query != '' && !loading) {
+      loading = true
+
+      var reqOpt = {
         q: $scope.query,
         part: 'snippet',
         type: 'video',
-        videoEmbeddable: true
-      })
+        beforeQuery: true,
+        maxResults: 10
+      }
+      if (beforeQuery == $scope.query) {
+        reqOpt.pageToken = nextPageToken
+      }
+      var request = gapi.client.youtube.search.list(reqOpt)
       request.execute(function (response) {
-        var str = JSON.stringify(response.result.items)
-        $scope.resultList = $scope.resultList.concat(response.result.items)
+        nextPageToken = response.nextPageToken
+        if (beforeQuery == $scope.query) {
+          $scope.resultList = $scope.resultList.concat(response.result.items)
+        }
+        else {
+          $scope.resultList = response.result.items
+        }
         $scope.$apply()
+        beforeQuery = $scope.query
+        loading = false
       })
     }
   }
 
-  $scope.add = function (item) {
-    console.log(item)
+  $scope.play = function (item) {
     playSvc.id = item.id.videoId
+    playSvc.index = null
+  }
+
+  $scope.add = function (item) {
+    delete item.kind
+    delete item.etag
+    delete item.$$hashKey
+    let data = {
+      video: item
+    }
+    socket.emit('addVideo', data)
   }
 })

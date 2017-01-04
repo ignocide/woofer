@@ -40,7 +40,7 @@
 
   <div id="sidebar" ng-controller="roomCtrl">
     <div class="mui--text-light mui--text-display1 mui--align-vertical">woofer</div>
-    <mui-input ng-model="room" label="방이름" ng-blur="joinRoom()"></mui-input>
+    <!-- <mui-input ng-model="room" label="방이름" ng-blur="joinRoom()"></mui-input> -->
   </div>
   <div id="content" class="mui-container-fluid">
     <!-- blog posts go here -->
@@ -53,28 +53,41 @@
         <div class="mui-divider"></div>
         <br>
         <!-- blog goes here -->
-        <div class='player-wapper' ng-controller="youtubeCtrl">
-          <youtube-video video-id="youtube_id"></youtube-video>
+        <div ng-controller="youtubeCtrl">
+          <div class='player-wapper'>
+              <youtube-video video-id="youtube_id" player-vars="playerVars" player="bestPlayer"></youtube-video>
+          </div>
+          <br>
+          <br>
+          <br>
+          <!-- blog goes here -->
+
+          <div class="mui--text-dark-secondary mui--text-body2">Play List</div>
+          <div class="mui-divider"></div>
+
+          <div class="play-list-wrapper">
+            <ul>
+              <li class="result-item" data-ng-repeat="item in playlist track by $index">
+                <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+                <div class='summary' ng-click="reqPlay($index)">
+                  <a>
+                    {{item.snippet.title}}
+                  </a>
+                </div>
+                <div class="btn-add-wrapper">
+                  <mui-button size="small" color="accent" ng-click="del($index)">-</mui-button>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <!-- blog goes here -->
-
-        <div class="mui--text-dark-secondary mui--text-body2">Play List</div>
-        <div class="mui-divider"></div>
-
-        <div class="play-list-wrapper">
-
-        </div>
-
         <div class="mui--text-dark-secondary mui--text-body2">검색결과</div>
 
         <div class="mui-divider"></div>
 
         <div class="searh-wrapper" ng-controller="searchCtrl">
           <form mui-form-inline>
-            <mui-input ng-model="query" hint="Placeholder 1"></mui-input>
+            <mui-input ng-model="query" hint="검색어"></mui-input>
             <mui-button variant="raised" ng-click="search()">Submit</mui-button>
           </form>
 
@@ -82,13 +95,14 @@
             <ul>
               <li class="result-item" data-ng-repeat="item in resultList">
                 <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
-                <div class='summary' ng-click="add(item)">
+                <div class='summary' ng-click="play(item)">
                   <a>
                     {{item.snippet.title}}
                   </a>
                 </div>
                 <div class="btn-add-wrapper">
-                  <mui-button size="small" color="primary" variant="fab">+</mui-button>
+                  <!-- <mui-button size="small" color="primary" variant="fab" ng-click="add(item)">+</mui-button> -->
+                  <mui-button size="small" color="primary" ng-click="add(item)">+</mui-button>
                 </div>
               </li>
             </ul>

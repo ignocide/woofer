@@ -41,31 +41,33 @@ buttons {
     max-width: 100% !important;
     width: 100% !important; }
 
-.result-list-wrapper {
-  padding: 10px; }
-  .result-list-wrapper ul {
+.result-list-wrapper, .play-list-wrapper {
+  padding: 10px;
+  max-height: 500px;
+  overflow: auto; }
+  .result-list-wrapper ul, .play-list-wrapper ul {
     padding: 0px; }
-  .result-list-wrapper .result-item {
+  .result-list-wrapper .result-item, .play-list-wrapper .result-item {
     display: block;
     height: 75px;
     margin-bottom: 10px;
     overflow: hidden;
     position: relative; }
-    .result-list-wrapper .result-item img {
+    .result-list-wrapper .result-item img, .play-list-wrapper .result-item img {
       float: left;
       width: 100px;
       height: 75px; }
-    .result-list-wrapper .result-item .summary {
+    .result-list-wrapper .result-item .summary, .play-list-wrapper .result-item .summary {
       margin-left: 100px;
       padding-left: 10px;
       margin-right: 50px;
       padding: 10px; }
-      .result-list-wrapper .result-item .summary a {
+      .result-list-wrapper .result-item .summary a, .play-list-wrapper .result-item .summary a {
         color: black;
         text-overflow: ellipsis; }
-        .result-list-wrapper .result-item .summary a:hover {
+        .result-list-wrapper .result-item .summary a:hover, .play-list-wrapper .result-item .summary a:hover {
           cursor: pointer; }
-    .result-list-wrapper .result-item .btn-add-wrapper {
+    .result-list-wrapper .result-item .btn-add-wrapper, .play-list-wrapper .result-item .btn-add-wrapper {
       position: absolute;
       float: right;
       width: 50px;
@@ -73,6 +75,6 @@ buttons {
       top: 0px;
       height: 75px;
       padding-top: 15px; }
-      .result-list-wrapper .result-item .btn-add-wrapper button {
+      .result-list-wrapper .result-item .btn-add-wrapper button, .play-list-wrapper .result-item .btn-add-wrapper button {
         margin-left: auto;
         margin-right: auto; }
