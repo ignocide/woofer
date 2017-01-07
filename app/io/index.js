@@ -3,6 +3,7 @@
 const redis_paylist = require('../redis/playlist')
 const Promise = require('bluebird')
 
+const team = require('./team')
 
 var TEAMDEV = 'team_dev'
 module.exports = function (io) {
@@ -12,6 +13,23 @@ module.exports = function (io) {
     // 임시로 무조건 개발팀으로 그룹화
     socket.join(TEAMDEV, function (err) {
       socket.room = TEAMDEV
+    })
+
+    socket.on('join', function (data) {
+      let team = data.team
+
+      if (!team) {
+        return
+      }
+
+      team.leave(socket)
+      .then(function () {
+        return team.join(socket, data)
+      })
+    })
+
+    socket.on('leave', function (data) {
+      return team.leave(socket)
     })
 
     socket.on('addVideo', function (data) {
