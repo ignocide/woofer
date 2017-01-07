@@ -45,16 +45,14 @@ var IO = function (io) {
     socket.on('addVideo', function (data) {
       api.runner(socket, io, data,
         playlist.add,
-        playlist.list,
-        playlist.sendListToTeam
+        playlist.addToTeam
       )
     })
 
     socket.on('delVideo', function (data) {
       api.runner(socket, io, data,
         playlist.del,
-        playlist.list,
-        playlist.sendListToTeam
+        playlist.delToTeam
       )
     })
 

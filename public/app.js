@@ -70,7 +70,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
       }
     }
     catch (err) {
-
+      return
     }
   })
 
@@ -115,6 +115,21 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
 
   socket.on('play', function (data) {
     $scope.play(null, data.index)
+  })
+
+  socket.on('addVideo', function (data) {
+    $scope.playlist.push(data.video)
+    $scope.$apply()
+  })
+
+  socket.on('delVideo', function (data) {
+    var index = data.index
+    $scope.playlist.splice(index, 1)
+
+    if (playSvc.index >= index) {
+      playSvc.index--
+    }
+    $scope.$apply()
   })
 })
 
