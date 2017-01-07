@@ -17,24 +17,20 @@ buttons {
 /**
  * Sidebar CSS
  */
-#sidebar {
-  background-color: #E57373;
-  padding: 15px; }
+#header {
+  background-color: #F5DA81;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px; }
 
-@media (min-width: 768px) {
-  #sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 180px;
-    height: 100%;
-    padding-top: 30px; } }
 /**
  * Content CSS
  */
-@media (min-width: 768px) {
-  #content {
-    margin-left: 180px; } }
+#content {
+  margin-top: 80px; }
+
 .player-wapper {
   width: 100%; }
   .player-wapper iframe {
