@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var compress = require('compression')
 var methodOverride = require('method-override')
-// var exphbs = require('express-handlebars')
 
 var engine = require('ejs-locals')
 module.exports = function (app, config) {
