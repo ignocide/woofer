@@ -1,7 +1,8 @@
 'use strict'
 
-const redis = require('../models/redis')
+const redis = require('../../config/redis')
 const Promise = require('bluebird')
+
 var REDIS_PLAYLIST = function () {}
 
 REDIS_PLAYLIST.prototype.add = function (key, video) {

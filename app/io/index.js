@@ -2,65 +2,20 @@
 
 const redis_paylist = require('../redis/playlist')
 const Promise = require('bluebird')
+const api = require('./api')
 
 const team = require('./team')
+const playlist = require('./playlist')
 
 var TEAMDEV = 'team_dev'
-module.exports = function (io) {
+
+var IO = function (io) {
   io.on('connection', function (socket) {
     console.log('a user connected')
 
     // 임시로 무조건 개발팀으로 그룹화
     socket.join(TEAMDEV, function (err) {
       socket.room = TEAMDEV
-    })
-
-    socket.on('join', function (data) {
-      let team = data.team
-
-      if (!team) {
-        return
-      }
-
-      team.leave(socket)
-      .then(function () {
-        return team.join(socket, data)
-      })
-    })
-
-    socket.on('leave', function (data) {
-      return team.leave(socket)
-    })
-
-    socket.on('addVideo', function (data) {
-      let video = data.video
-      redis_paylist.add(socket.room, video)
-      .then(function (list) {
-        let data = {
-          list: list
-        }
-        io.to(socket.room).emit('playlistInit', data)
-      })
-    })
-
-    socket.on('delVideo', function (data) {
-      let index = data.index
-
-      redis_paylist.list(socket.room)
-      .then(function (list) {
-        list.splice(index, 1)
-        return redis_paylist.set(socket.room, list)
-      })
-      .then(function (list) {
-        let data = {
-          list: list
-        }
-        io.to(socket.room).emit('playlistInit', data)
-      })
-    })
-
-    socket.on('play', function (data) {
-      io.to(socket.room).emit('play', data)
     })
 
     redis_paylist.list(TEAMDEV)
@@ -70,11 +25,43 @@ module.exports = function (io) {
       }
       io.to(socket.room).emit('playlistInit', data)
     })
+
+    socket.on('join', function (data) {
+      api.runner(socket, io, data,
+        team.leave,
+        team.join,
+        playlist.list,
+        playlist.sendListToTeam
+      )
+    })
+
+    socket.on('leave', function (data) {
+      api.runner(socket, io, data,
+        team.leave,
+        api.callback('leaveCallback')
+      )
+    })
+
+    socket.on('addVideo', function (data) {
+      api.runner(socket, io, data,
+        playlist.add,
+        playlist.list,
+        playlist.sendListToTeam
+      )
+    })
+
+    socket.on('delVideo', function (data) {
+      api.runner(socket, io, data,
+        playlist.del,
+        playlist.list,
+        playlist.sendListToTeam
+      )
+    })
+
+    socket.on('play', function (data) {
+      io.to(socket.room).emit('play', data)
+    })
   })
 }
 
-let toJson = function (arr) {
-  for (var key in arr) {
-    arr[key] = JSON.parse(arr[key])
-  }
-}
+module.exports = IO
