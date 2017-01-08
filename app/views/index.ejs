@@ -38,7 +38,7 @@
 
 <div id="wrapper">
 
-  <div id="sidebar" ng-controller="roomCtrl">
+  <div id="header" ng-controller="roomCtrl">
     <div class="mui--text-light mui--text-display1 mui--align-vertical">woofer</div>
     <!-- <mui-input ng-model="room" label="방이름" ng-blur="joinRoom()"></mui-input> -->
   </div>
@@ -58,6 +58,13 @@
               <youtube-video video-id="youtube_id" player-vars="playerVars" player="bestPlayer"></youtube-video>
           </div>
           <br>
+          <mui-container fluid class="player-controller">
+            <mui-row>
+              <mui-col xs="4" md="4"><div class="btn">{{'<<'}}</div></mui-col>
+              <mui-col xs="4" md="4"><div ng-class="shuffleModeClass()" ng-click="toggleSuffleMode()">{{' '}}</div></mui-col>
+              <mui-col xs="4" md="4"><div class="btn">{{'>>'}}</div></mui-col>
+            </mui-row>
+          </mui-container>
           <br>
           <br>
           <!-- blog goes here -->

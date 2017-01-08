@@ -59,6 +59,10 @@ var IO = function (io) {
     socket.on('play', function (data) {
       io.to(socket.room).emit('play', data)
     })
+
+    socket.on('reqShuffleMode', function (data) {
+      io.to(socket.room).emit('reqShuffleMode', data)
+    })
   })
 }
 
