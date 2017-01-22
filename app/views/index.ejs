@@ -68,53 +68,59 @@
           <br>
           <br>
           <!-- blog goes here -->
+          <mui-col xs="12" md="6">
 
-          <div class="mui--text-dark-secondary mui--text-body2">Play List</div>
+            <div class="mui--text-dark-secondary mui--text-body2">Play List</div>
+            <div class="mui-divider"></div>
+
+            <div class="play-list-wrapper">
+              <ul>
+                <li class="result-item" data-ng-repeat="item in playlist track by $index">
+                  <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+                  <div class='summary' ng-click="reqPlay($index)">
+                    <a>
+                      {{item.snippet.title}}
+                    </a>
+                  </div>
+                  <div class="btn-add-wrapper">
+                    <mui-button size="small" color="accent" ng-click="del($index)">-</mui-button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </mui-col>
+        </div>
+
+
+        <mui-col xs="12" md="6">
+          <div class="mui--text-dark-secondary mui--text-body2">검색결과</div>
+
           <div class="mui-divider"></div>
 
-          <div class="play-list-wrapper">
-            <ul>
-              <li class="result-item" data-ng-repeat="item in playlist track by $index">
-                <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
-                <div class='summary' ng-click="reqPlay($index)">
-                  <a>
-                    {{item.snippet.title}}
-                  </a>
-                </div>
-                <div class="btn-add-wrapper">
-                  <mui-button size="small" color="accent" ng-click="del($index)">-</mui-button>
-                </div>
-              </li>
-            </ul>
+          <div class="searh-wrapper" ng-controller="searchCtrl">
+            <form mui-form-inline>
+              <mui-input ng-model="query" hint="검색어"></mui-input>
+              <mui-button variant="raised" ng-click="search()">Submit</mui-button>
+            </form>
+
+            <div class='result-list-wrapper'>
+              <ul>
+                <li class="result-item" data-ng-repeat="item in resultList">
+                  <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+                  <div class='summary' ng-click="play(item)">
+                    <a>
+                      {{item.snippet.title}}
+                    </a>
+                  </div>
+                  <div class="btn-add-wrapper">
+                    <!-- <mui-button size="small" color="primary" variant="fab" ng-click="add(item)">+</mui-button> -->
+                    <mui-button size="small" color="primary" ng-click="add(item)">+</mui-button>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="mui--text-dark-secondary mui--text-body2">검색결과</div>
-
-        <div class="mui-divider"></div>
-
-        <div class="searh-wrapper" ng-controller="searchCtrl">
-          <form mui-form-inline>
-            <mui-input ng-model="query" hint="검색어"></mui-input>
-            <mui-button variant="raised" ng-click="search()">Submit</mui-button>
-          </form>
-
-          <div class='result-list-wrapper'>
-            <ul>
-              <li class="result-item" data-ng-repeat="item in resultList">
-                <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
-                <div class='summary' ng-click="play(item)">
-                  <a>
-                    {{item.snippet.title}}
-                  </a>
-                </div>
-                <div class="btn-add-wrapper">
-                  <!-- <mui-button size="small" color="primary" variant="fab" ng-click="add(item)">+</mui-button> -->
-                  <mui-button size="small" color="primary" ng-click="add(item)">+</mui-button>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
+        </mui-col>
         <br>
         <!-- blog goes here -->
       </div>
