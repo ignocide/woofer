@@ -57,6 +57,7 @@ app.factory('playSvc', function () {
         nextIndex = samples[i]
       }
     }
+
     return nextIndex
   }
   var SVC = {
@@ -167,8 +168,16 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
     $scope.playlist = playSvc.list
   })
 
-  $scope.reqPlay = function (index) {
-    socket.emit('play', {index: index})
+  $scope.reqPlay = function (item) {
+    var index = $scope.playlist.indexOf(item)
+    if (!isNaN(index) && index > -1) {
+      socket.emit('play', {index: index})
+    }
+  }
+
+  $scope.reqNext = function () {
+    let nextIndex = playSvc.getShuffledIndex()
+    socket.emit('play', {index: nextIndex})
   }
   // player control funcs
   $scope.play = function (item, index) {
@@ -188,8 +197,10 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
     }
   }
 
-  $scope.del = function (index) {
-    socket.emit('delVideo', {index: index})
+  $scope.del = function (item) {
+    var index = $scope.playlist.indexOf(item)
+    if (!isNaN(index) && index > -1)
+    { socket.emit('delVideo', {index: index}) }
   }
 
   socket.on('playlistInit', function (data) {

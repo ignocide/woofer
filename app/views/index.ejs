@@ -64,9 +64,9 @@
           <br>
           <mui-container fluid class="player-controller">
             <mui-row>
-              <mui-col xs="4" md="4"><div class="btn">{{'<<'}}</div></mui-col>
+              <!-- <mui-col xs="4" md="4"><div class="btn">{{'<<'}}</div></mui-col> -->
               <mui-col xs="4" md="4"><div ng-class="shuffleModeClass()" ng-click="toggleSuffleMode()">{{' '}}</div></mui-col>
-              <mui-col xs="4" md="4"><div class="btn">{{'>>'}}</div></mui-col>
+              <mui-col xs="4" md="4"><div ng-click="reqNext()" class="btn">{{'>>'}}</div></mui-col>
             </mui-row>
           </mui-container>
           <br>
@@ -76,18 +76,20 @@
 
             <div class="mui--text-dark-secondary mui--text-body2">Play List</div>
             <div class="mui-divider"></div>
-
+            <form mui-form-inline>
+              <mui-input ng-model="filterQuery" hint="filter"></mui-input>
+            </form>
             <div class="play-list-wrapper">
               <ul>
-                <li class="result-item" data-ng-repeat="item in playlist track by $index">
+                <li class="result-item" data-ng-repeat="item in playlist | filter:filterQuery track by $index">
                   <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
-                  <div class='summary' ng-click="reqPlay($index)">
+                  <div class='summary' ng-click="reqPlay(item)">
                     <a>
                       {{item.snippet.title}}
                     </a>
                   </div>
                   <div class="btn-add-wrapper">
-                    <mui-button size="small" color="accent" ng-click="del($index)">-</mui-button>
+                    <mui-button size="small" color="accent" ng-click="del(item)">-</mui-button>
                   </div>
                 </li>
               </ul>
