@@ -7,6 +7,6 @@
     "components"
   ],
   "dependencies": {
-    "angular-youtube-embed": "ignocide/angular-youtube-embed"
+    "angular-youtube-embed": "ignocide/angular-youtube-embed#v1.3.2"
   }
 }
