@@ -88,9 +88,11 @@ app.config(function () {
 })
 
 app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
-  $scope.youtube_id = null
+  $scope.youtube_id = undefined
   $scope.playerVars = {
-    rel: 0
+    rel: 0,
+    autoplay: 1,
+    origin: 0
   }
   $scope.playlist = playSvc.list
 
@@ -111,8 +113,6 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
   })
 
   $scope.$on('youtube.player.ended', function ($event, player) {
-    playSvc.recordHistory(playSvc.id)
-
     let index = playSvc.index
 
     try {
@@ -155,9 +155,12 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
   $scope.$watch(function () {
     return playSvc.id
   }, function () {
+    playSvc.recordHistory(playSvc.id)
+    // if ($scope.bestPlayer) {
+    //   return $scope.bestPlayer.loadVideoById(playSvc.id)
+    // }
     $scope.youtube_id = playSvc.id
   })
-
   $scope.$watch(function () {
     return playSvc.list
   }, function () {
@@ -217,6 +220,12 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
 
 app.controller('roomCtrl', function ($rootScope, $scope) {
   $scope.room = ''
+  $scope.join = function () {
+    var data = {
+      room: $scope.room
+    }
+    socket.emit('join', data)
+  }
 })
 
 app.controller('searchCtrl', function ($rootScope, $scope, playSvc) {

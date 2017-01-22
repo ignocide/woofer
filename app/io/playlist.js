@@ -43,6 +43,15 @@ PLAYLIST.prototype.sendListToTeam = function (socket, io, data) {
   return Promise.resolve()
 }
 
+PLAYLIST.prototype.sendList = function (socket, io, data) {
+  let res = {
+    list: data.locals.list
+  }
+  socket.emit('playlistInit', res)
+
+  return Promise.resolve()
+}
+
 PLAYLIST.prototype.addToTeam = function (socket, io, data) {
   let res = {
     video: data.locals.addedVideo

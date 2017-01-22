@@ -13,25 +13,12 @@ var IO = function (io) {
   io.on('connection', function (socket) {
     console.log('a user connected')
 
-    // 임시로 무조건 개발팀으로 그룹화
-    socket.join(TEAMDEV, function (err) {
-      socket.room = TEAMDEV
-    })
-
-    redis_paylist.list(TEAMDEV)
-    .then(function (list) {
-      let data = {
-        list: list
-      }
-      io.to(socket.room).emit('playlistInit', data)
-    })
-
     socket.on('join', function (data) {
       api.runner(socket, io, data,
         team.leave,
         team.join,
         playlist.list,
-        playlist.sendListToTeam
+        playlist.sendList
       )
     })
 

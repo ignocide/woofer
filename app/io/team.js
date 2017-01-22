@@ -7,14 +7,14 @@ var TEAM = function () {
 
 TEAM.prototype.leave = function (socket, io, data) {
   return new Promise(function (resolve, reject) {
-    let joinedTeam = socket.team
+    let joinedTeam = socket.room
     if (joinedTeam) {
-      socket.leave(socket.team, function () {
+      socket.leave(socket.room, function (err) {
         if (err) {
           reject(err)
         }
         else {
-          delete socket.team
+          delete socket.room
           resolve()
         }
       })
@@ -27,12 +27,12 @@ TEAM.prototype.leave = function (socket, io, data) {
 
 TEAM.prototype.join = function (socket, io, data) {
   return new Promise(function (resolve, reject) {
-    let team = data.team
-    socket.join(team, function (err) {
+    let room = data.room
+    socket.join(room, function (err) {
       if (err) {
         return reject(err)
       }
-      socket.team = team
+      socket.room = room
       resolve()
     })
   })

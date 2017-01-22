@@ -39,7 +39,11 @@
 <div id="wrapper">
 
   <div id="header" ng-controller="roomCtrl">
-    <div class="mui--text-light mui--text-display1 mui--align-vertical">woofer</div>
+    <div class="mui--text-light mui--text-title mui--align-vertical">woofer</div>
+    <form mui-form-inline>
+      <mui-input ng-model="room" hint="team"></mui-input>
+      <mui-button size="small" variant="raised" ng-click="join()">참여하기</mui-button>
+    </form>
     <!-- <mui-input ng-model="room" label="방이름" ng-blur="joinRoom()"></mui-input> -->
   </div>
   <div id="content" class="mui-container-fluid">
@@ -100,7 +104,7 @@
           <div class="searh-wrapper" ng-controller="searchCtrl">
             <form mui-form-inline>
               <mui-input ng-model="query" hint="검색어"></mui-input>
-              <mui-button variant="raised" ng-click="search()">Submit</mui-button>
+              <mui-button size="small" variant="raised" ng-click="search()">Submit</mui-button>
             </form>
 
             <div class='result-list-wrapper'>
