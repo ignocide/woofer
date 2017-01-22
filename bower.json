@@ -5,5 +5,8 @@
     "**/.*",
     "node_modules",
     "components"
-  ]
+  ],
+  "dependencies": {
+    "angular-youtube-embed": "ignocide/angular-youtube-embed"
+  }
 }

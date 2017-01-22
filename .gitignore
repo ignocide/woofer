@@ -1,5 +1,6 @@
 node_modules/
 public/woofer.config.js
 public/angular-youtube-embed.min.js
+public/components/
 .sass-cache
 config/config.js
