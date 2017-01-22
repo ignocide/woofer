@@ -57,7 +57,9 @@ app.factory('playSvc', function () {
         nextIndex = samples[i]
       }
     }
-
+    if (nextIndex == null) {
+      nextIndex = samples.shift()
+    }
     return nextIndex
   }
   var SVC = {
