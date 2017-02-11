@@ -4,3 +4,6 @@ public/angular-youtube-embed.min.js
 public/components/
 .sass-cache
 config/config.js
+./gulpfile.js
+./project.json
+./app-product.json
