@@ -20,6 +20,10 @@ app.run(function ($rootScope, conf) {
   socket.on('connect', function (client) {
     console.log('connected!')
   })
+
+  socket.on('disconnect', function (client) {
+    console.log('disconnect!')
+  })
 })
 
 app.factory('playSvc', function () {
