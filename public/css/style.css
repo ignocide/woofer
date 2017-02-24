@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * Body CSS
  */
@@ -32,7 +33,21 @@
   background-color: #ECEFF1; }
 
 .right {
+  display: inline-block;
   float: right; }
+
+.inlne {
+  display: inline-block; }
+
+.close-btn:after {
+  width: 20px;
+  content: '×';
+  /* UTF-8 symbol */ }
+
+.min-btn:after {
+  width: 20px;
+  content: '_';
+  /* UTF-8 symbol */ }
 
 html, body {
   height: 100%;
@@ -46,6 +61,22 @@ buttons {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004); }
+
+a:link {
+  text-decoration: none;
+  color: black; }
+
+a:visited {
+  text-decoration: none;
+  color: black; }
+
+a:hover {
+  text-decoration: none;
+  color: black; }
+
+a:active {
+  text-decoration: none;
+  color: black; }
 
 /**
  * Sidebar CSS
@@ -64,18 +95,30 @@ buttons {
  * Content CSS
  */
 #content {
-  margin-top: 50px;
-  margin-bottom: -50px;
-  overflow: scroll;
+  padding-top: 50px;
+  overflow-y: scroll;
+  overflow-x: hidden;
   max-height: 100vh; }
 
 #sidebar {
   position: absolute;
   max-width: 16.66%;
   min-width: 200px;
-  height: 100vh; }
+  height: 100vh;
+  padding-top: 20px; }
+  #sidebar ul {
+    list-style: none;
+    padding-left: 0px; }
+    #sidebar ul li {
+      height: 40px;
+      font-size: 18px; }
+      #sidebar ul li a {
+        color: white;
+        cursor: pointer; }
 
 #card-list {
+  -webkit-transition: margin-top 0.3s;
+  transition: margin-top 0.3s;
   padding-top: 30px;
   padding-bottom: 50px; }
 
@@ -98,6 +141,16 @@ buttons {
   padding-top: 5px;
   padding-bottom: 5px; }
 
+#roombox {
+  -webkit-transition: all ease-in-out 0.5s !important;
+  transition: all ease-in-out 0.5s !important;
+  -moz-transition: all ease-in-out 0.5s !important;
+  -o-transition: all ease-in-out 0.5s !important;
+  position: relative;
+  left: 0;
+  top: 0;
+  opacity: 1; }
+
 .player-wapper {
   width: 100%; }
   .player-wapper iframe {
@@ -106,28 +159,30 @@ buttons {
 
 .player-controller .btn {
   height: 30px;
-  color: white;
+  color: black;
   font-size: 20px;
-  background-color: #F5DA81;
+  background-color: #B0BEC5;
   text-align: center;
   height: 30px; }
 .player-controller .shuffleMode {
   height: 30px;
   background-size: 20px;
   background-position: 50%;
-  background-color: #F5DA81;
+  background-color: #B0BEC5;
   background-repeat: no-repeat;
   text-align: center;
   background-image: url("/img/icon_shuffle.png"); }
 .player-controller .noShuffleMode {
   height: 30px;
   width: 100%;
-  background-color: #F5DA81;
+  background-color: #B0BEC5;
   content: "\00e6b9";
+  color: black;
   text-align: center; }
 
 .playlist .card-header .filter {
-  margin-top: -7px; }
+  display: inline-block;
+  margin-top: -8px; }
 .playlist .card-body {
   padding: 10px;
   max-height: 500px;
