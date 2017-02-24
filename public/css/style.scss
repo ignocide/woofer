@@ -1,9 +1,65 @@
 /**
  * Body CSS
  */
-html,
-body {
+
+$c900: #263238;
+$c800: #37474F;
+$c700: #455A64;
+$c600: #546E7A;
+$c500: #607D8B;
+$c400: #78909C;
+$c300: #90A4AE;
+$c200: #B0BEC5;
+$c100: #CFD8DC;
+$c50: #ECEFF1;
+
+.c900 {
+  background-color: $c900;
+}
+
+.c800 {
+  background-color: $c800;
+}
+
+.c700 {
+  background-color: $c700;
+}
+
+.c600 {
+  background-color: $c600;
+}
+
+.c500 {
+  background-color: $c500;
+}
+
+.c400 {
+  background-color: $c400;
+}
+
+.c300 {
+  background-color: $c300;
+}
+
+.c200 {
+  background-color: $c200;
+}
+
+.c100 {
+  background-color: $c100;
+}
+
+.c50 {
+  background-color: $c50;
+}
+
+.right{
+  float: right;
+}
+
+html,body {
   height: 100%;
+  overflow: hidden;
 }
 
 html,
@@ -21,7 +77,6 @@ buttons {
  * Sidebar CSS
  */
 #header {
-  background-color: #F5DA81;
   padding: 11px 20px;
   position: fixed;
   top: 0;
@@ -31,13 +86,7 @@ buttons {
   div{
     display: inline-block;
   }
-  form{
-    margin-left: 20px;
-    display: inline-block;
-    .mui-textfield{
-      padding-top: 0px;
-    }
-  }
+
 }
 
 
@@ -46,8 +95,52 @@ buttons {
  */
  #content {
    margin-top: 50px;
-   margin-bottom: 50px;
+   margin-bottom: -50px;
+   overflow: scroll;
+   max-height: 100vh;
  }
+
+#sidebar{
+  position: absolute;
+  max-width: 16.66%;
+  min-width: 200px;
+  height: 100vh;
+}
+
+
+#card-list{
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.mui-textfield{
+  padding-top: 0px;
+  margin-bottom: 0px;
+}
+.mui-btn{
+  margin: 0px;
+}
+
+.room-frm {
+  background-color: $c50;
+  padding-left: 5px;
+}
+
+
+.card {
+  .card-header{
+
+  }
+  .card-body{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    overflow: scroll;
+  }
+  .card-footer{
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
 
 
 .player-wapper {
@@ -87,56 +180,125 @@ buttons {
   }
 }
 
-.result-list-wrapper,.play-list-wrapper{
-  padding: 10px;
-  max-height: 500px;
-  overflow: auto;
-  ul{
-    padding: 0px;
+.playlist {
+  .card-header{
+    .filter {
+      margin-top: -7px;
+    }
   }
 
-  .result-item{
-    display: block;
-    height: 75px;
-    margin-bottom: 10px;
-    overflow: hidden;
-    position: relative;
 
-    img {
-      float: left;
-      width: 100px;
-      height: 75px;
+  .card-body{
+    padding: 10px;
+    max-height: 500px;
+    overflow: auto;
+    ul{
+      padding: 0px;
     }
 
-    .summary{
-      margin-left: 100px;
-      padding-left: 10px;
-      margin-right: 50px;
-      padding: 10px;
-      a{
-        color: black;
-        text-overflow: ellipsis;
+    .result-item{
+      display: block;
+      height: 75px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      position: relative;
 
-        &:hover{
-          cursor: pointer;
+      img {
+        float: left;
+        width: 100px;
+        height: 75px;
+      }
+
+      .summary{
+        margin-left: 100px;
+        padding-left: 10px;
+        margin-right: 50px;
+        padding: 10px;
+        a{
+          color: black;
+          text-overflow: ellipsis;
+
+          &:hover{
+            cursor: pointer;
+          }
+        }
+      }
+
+      .btn-add-wrapper{
+        position: absolute;
+        float: right;
+        width: 50px;
+        right: 10px;
+        top: 0px;
+        height: 75px;
+        padding-top: 15px;
+
+        button{
+          margin-left: auto;
+          margin-right: auto;
         }
       }
     }
+  }
+}
 
-    .btn-add-wrapper{
-      position: absolute;
-      float: right;
-      width: 50px;
-      right: 10px;
-      top: 0px;
+
+.search{
+  .card-header{
+      .filter {
+        margin-top: -7px;
+      }
+  }
+  .card-body{
+    padding: 10px;
+    max-height: 500px;
+    overflow: auto;
+    ul{
+      padding: 0px;
+    }
+
+    .result-item{
+      display: block;
       height: 75px;
-      padding-top: 15px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      position: relative;
 
-      button{
-        margin-left: auto;
-        margin-right: auto;
+      img {
+        float: left;
+        width: 100px;
+        height: 75px;
+      }
+
+      .summary{
+        margin-left: 100px;
+        padding-left: 10px;
+        margin-right: 50px;
+        padding: 10px;
+        a{
+          color: black;
+          text-overflow: ellipsis;
+
+          &:hover{
+            cursor: pointer;
+          }
+        }
+      }
+
+      .btn-add-wrapper{
+        position: absolute;
+        float: right;
+        width: 50px;
+        right: 10px;
+        top: 0px;
+        height: 75px;
+        padding-top: 15px;
+
+        button{
+          margin-left: auto;
+          margin-right: auto;
+        }
       }
     }
   }
-
 }

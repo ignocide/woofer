@@ -36,32 +36,55 @@
 <body>
 
 
-<div id="wrapper">
+<div id="wrapper c50">
 
-  <div id="header" ng-controller="roomCtrl">
+  <div id="header"class="c900">
     <div class="mui--text-light mui--text-title mui--align-vertical">woofer</div>
-    <form mui-form-inline>
-      <mui-input ng-model="room" hint="team"></mui-input>
-      <mui-button size="small" variant="raised" ng-click="join()">참여하기</mui-button>
-    </form>
     <!-- <mui-input ng-model="room" label="방이름" ng-blur="joinRoom()"></mui-input> -->
   </div>
-  <div id="content" class="mui-container-fluid">
-    <!-- blog posts go here -->
 
-    <div class="mui-row">
-      <div class="mui-col-sm-10 mui-col-sm-offset-1">
-        <br>
-        <br>
-        <div class="mui--text-dark-secondary mui--text-body2">재생중인 음악</div>
+  <div id="content" class="mui-container-fluid mui-row">
+    <!-- blog posts go here -->
+    <div id="sidebar" class="mui-col-sm-2 c300">
+      <div class="sidebar-header">
+      </div>
+
+      <div class="sidebar-body">
+        <ul>
+          <li>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="card-list" class="mui-col-sm-7 mui-col-sm-offset-3"  ng-controller="youtubeCtrl">
+
+      <mui-panel class='card' ng-controller="roomCtrl" >
+        <div class="card-body">
+          <div class="room-frm">
+            <form>
+
+              <mui-input class="mui-col-sm-10" ng-model="room" hint="team"></mui-input>
+              <mui-button class="mui-col-sm-2" size="small" variant="raised" ng-click="join()">참여하기</mui-button>
+            </form>
+          </div>
+        </div>
+      </mui-panel>
+
+
+
+      <mui-panel class='card'>
+        <div class="card-header">
+          <div class="mui--text-dark-secondary mui--text-body2">재생중인 음악</div>
+        </div>
         <div class="mui-divider"></div>
-        <br>
-        <!-- blog goes here -->
-        <div ng-controller="youtubeCtrl">
+        <div class="card-body">
           <div class='player-wapper'>
               <youtube-video video-id="youtube_id" player-vars="playerVars" player="bestPlayer"></youtube-video>
           </div>
-          <br>
+        </div>
+        <div class="mui-divider"></div>
+        <div class="card-footer">
           <mui-container fluid class="player-controller">
             <mui-row>
               <!-- <mui-col xs="4" md="4"><div class="btn">{{'<<'}}</div></mui-col> -->
@@ -69,68 +92,65 @@
               <mui-col xs="4" md="4"><div ng-click="reqNext()" class="btn">{{'>>'}}</div></mui-col>
             </mui-row>
           </mui-container>
-          <br>
-          <br>
-          <!-- blog goes here -->
-          <mui-col xs="12" md="6">
-
-            <div class="mui--text-dark-secondary mui--text-body2">Play List</div>
-            <div class="mui-divider"></div>
-            <form mui-form-inline>
-              <mui-input ng-model="filterQuery" hint="filter"></mui-input>
-            </form>
-            <div class="play-list-wrapper">
-              <ul>
-                <li class="result-item" data-ng-repeat="item in playlist | filter:filterQuery track by $index">
-                  <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
-                  <div class='summary' ng-click="reqPlay(item)">
-                    <a>
-                      {{item.snippet.title}}
-                    </a>
-                  </div>
-                  <div class="btn-add-wrapper">
-                    <mui-button size="small" color="accent" ng-click="del(item)">-</mui-button>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </mui-col>
         </div>
+      </mui-panel>
 
 
-        <mui-col xs="12" md="6">
-          <div class="mui--text-dark-secondary mui--text-body2">검색결과</div>
+      <mui-panel class='card playlist'>
+        <div class="card-header">
+          <div class="mui--text-dark-secondary mui--text-body2">
+            Play List
+            <mui-input class="right filter" ng-model="filterQuery" hint="filter"></mui-input>
+          </div>
+        </div>
+        <div class="mui-divider"></div>
+        <div class="card-body">
+          <ul>
+            <li class="result-item" data-ng-repeat="item in playlist | filter:filterQuery track by $index">
+              <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+              <div class='summary' ng-click="reqPlay(item)">
+                <a>
+                  {{item.snippet.title}}
+                </a>
+              </div>
+              <div class="btn-add-wrapper">
+                <mui-button size="small" class="c200" ng-click="del(item)">-</mui-button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </mui-panel>
 
-          <div class="mui-divider"></div>
 
-          <div class="searh-wrapper" ng-controller="searchCtrl">
-            <form mui-form-inline>
+      <mui-panel class='card search' ng-controller="searchCtrl">
+        <div class="card-header">
+          <div class="mui--text-dark-secondary mui--text-body2">
+            검색결과
+            <form mui-form-inline class="right filter">
               <mui-input ng-model="query" hint="검색어"></mui-input>
               <mui-button size="small" variant="raised" ng-click="search()">search</mui-button>
             </form>
-
-            <div class='result-list-wrapper'>
-              <ul>
-                <li class="result-item" data-ng-repeat="item in resultList">
-                  <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
-                  <div class='summary' ng-click="play(item)">
-                    <a>
-                      {{item.snippet.title}}
-                    </a>
-                  </div>
-                  <div class="btn-add-wrapper">
-                    <!-- <mui-button size="small" color="primary" variant="fab" ng-click="add(item)">+</mui-button> -->
-                    <mui-button size="small" color="primary" ng-click="add(item)">+</mui-button>
-                  </div>
-                </li>
-              </ul>
-            </div>
           </div>
-        </mui-col>
-        <br>
-        <!-- blog goes here -->
-      </div>
-    </div>
+        </div>
+        <div class="mui-divider"></div>
+        <div class="card-body">
+          <ul>
+            <li class="result-item" data-ng-repeat="item in resultList">
+              <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+              <div class='summary' ng-click="play(item)">
+                <a>
+                  {{item.snippet.title}}
+                </a>
+              </div>
+              <div class="btn-add-wrapper">
+                <!-- <mui-button size="small" color="primary" variant="fab" ng-click="add(item)">+</mui-button> -->
+                <mui-button size="small" class="c200" ng-click="add(item)">+</mui-button>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </mui-panel>
 
   </div>
 

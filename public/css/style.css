@@ -1,9 +1,42 @@
 /**
  * Body CSS
  */
-html,
-body {
-  height: 100%; }
+.c900 {
+  background-color: #263238; }
+
+.c800 {
+  background-color: #37474F; }
+
+.c700 {
+  background-color: #455A64; }
+
+.c600 {
+  background-color: #546E7A; }
+
+.c500 {
+  background-color: #607D8B; }
+
+.c400 {
+  background-color: #78909C; }
+
+.c300 {
+  background-color: #90A4AE; }
+
+.c200 {
+  background-color: #B0BEC5; }
+
+.c100 {
+  background-color: #CFD8DC; }
+
+.c50 {
+  background-color: #ECEFF1; }
+
+.right {
+  float: right; }
+
+html, body {
+  height: 100%;
+  overflow: hidden; }
 
 html,
 body,
@@ -18,7 +51,6 @@ buttons {
  * Sidebar CSS
  */
 #header {
-  background-color: #F5DA81;
   padding: 11px 20px;
   position: fixed;
   top: 0;
@@ -27,18 +59,44 @@ buttons {
   z-index: 1; }
   #header div {
     display: inline-block; }
-  #header form {
-    margin-left: 20px;
-    display: inline-block; }
-    #header form .mui-textfield {
-      padding-top: 0px; }
 
 /**
  * Content CSS
  */
 #content {
   margin-top: 50px;
-  margin-bottom: 50px; }
+  margin-bottom: -50px;
+  overflow: scroll;
+  max-height: 100vh; }
+
+#sidebar {
+  position: absolute;
+  max-width: 16.66%;
+  min-width: 200px;
+  height: 100vh; }
+
+#card-list {
+  padding-top: 30px;
+  padding-bottom: 50px; }
+
+.mui-textfield {
+  padding-top: 0px;
+  margin-bottom: 0px; }
+
+.mui-btn {
+  margin: 0px; }
+
+.room-frm {
+  background-color: #ECEFF1;
+  padding-left: 5px; }
+
+.card .card-body {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow: scroll; }
+.card .card-footer {
+  padding-top: 5px;
+  padding-bottom: 5px; }
 
 .player-wapper {
   width: 100%; }
@@ -68,33 +126,35 @@ buttons {
   content: "\00e6b9";
   text-align: center; }
 
-.result-list-wrapper, .play-list-wrapper {
+.playlist .card-header .filter {
+  margin-top: -7px; }
+.playlist .card-body {
   padding: 10px;
   max-height: 500px;
   overflow: auto; }
-  .result-list-wrapper ul, .play-list-wrapper ul {
+  .playlist .card-body ul {
     padding: 0px; }
-  .result-list-wrapper .result-item, .play-list-wrapper .result-item {
+  .playlist .card-body .result-item {
     display: block;
     height: 75px;
     margin-bottom: 10px;
     overflow: hidden;
     position: relative; }
-    .result-list-wrapper .result-item img, .play-list-wrapper .result-item img {
+    .playlist .card-body .result-item img {
       float: left;
       width: 100px;
       height: 75px; }
-    .result-list-wrapper .result-item .summary, .play-list-wrapper .result-item .summary {
+    .playlist .card-body .result-item .summary {
       margin-left: 100px;
       padding-left: 10px;
       margin-right: 50px;
       padding: 10px; }
-      .result-list-wrapper .result-item .summary a, .play-list-wrapper .result-item .summary a {
+      .playlist .card-body .result-item .summary a {
         color: black;
         text-overflow: ellipsis; }
-        .result-list-wrapper .result-item .summary a:hover, .play-list-wrapper .result-item .summary a:hover {
+        .playlist .card-body .result-item .summary a:hover {
           cursor: pointer; }
-    .result-list-wrapper .result-item .btn-add-wrapper, .play-list-wrapper .result-item .btn-add-wrapper {
+    .playlist .card-body .result-item .btn-add-wrapper {
       position: absolute;
       float: right;
       width: 50px;
@@ -102,6 +162,46 @@ buttons {
       top: 0px;
       height: 75px;
       padding-top: 15px; }
-      .result-list-wrapper .result-item .btn-add-wrapper button, .play-list-wrapper .result-item .btn-add-wrapper button {
+      .playlist .card-body .result-item .btn-add-wrapper button {
+        margin-left: auto;
+        margin-right: auto; }
+
+.search .card-header .filter {
+  margin-top: -7px; }
+.search .card-body {
+  padding: 10px;
+  max-height: 500px;
+  overflow: auto; }
+  .search .card-body ul {
+    padding: 0px; }
+  .search .card-body .result-item {
+    display: block;
+    height: 75px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative; }
+    .search .card-body .result-item img {
+      float: left;
+      width: 100px;
+      height: 75px; }
+    .search .card-body .result-item .summary {
+      margin-left: 100px;
+      padding-left: 10px;
+      margin-right: 50px;
+      padding: 10px; }
+      .search .card-body .result-item .summary a {
+        color: black;
+        text-overflow: ellipsis; }
+        .search .card-body .result-item .summary a:hover {
+          cursor: pointer; }
+    .search .card-body .result-item .btn-add-wrapper {
+      position: absolute;
+      float: right;
+      width: 50px;
+      right: 10px;
+      top: 0px;
+      height: 75px;
+      padding-top: 15px; }
+      .search .card-body .result-item .btn-add-wrapper button {
         margin-left: auto;
         margin-right: auto; }
