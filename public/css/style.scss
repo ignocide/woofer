@@ -153,6 +153,21 @@ a:active {
   }
 }
 
+@media (max-width :768px ){
+
+  #sidebar{
+    display: none;
+  }
+  .close-btn{
+    display: none;
+  }
+
+  .playlist .card-body {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
 
 #card-list{
   -webkit-transition: margin-top 0.3s;
