@@ -3,7 +3,7 @@ var app = angular.module('woofer'
     , ['woofer.config', 'mui', 'ngResource', 'woofer.api', 'youtube-embed' ])
 
 var socket = null
-app.run(function ($rootScope, conf) {
+app.run(function ($rootScope, conf, menuSvc) {
   var initGapi = function () {
     // 2. Initialize the JavaScript client library.
     gapi.client.init(conf.GOOGLEAPI).then(function (resp) {
@@ -23,9 +23,64 @@ app.run(function ($rootScope, conf) {
 
   socket.on('disconnect', function (client) {
     console.log('disconnect!')
+    $rootScope.menuSvc.showRoom()
   })
+
+  $rootScope.menuInit = menuSvc.init()
+  $rootScope.menuState = function (key) {
+    return menuSvc.getState(key)
+  }
+
+  $rootScope.menuSvc = menuSvc
 })
 
+app.factory('menuSvc', function () {
+  var menus = ['room', 'playlist', 'search']
+  var SVC = {
+    init: function () {
+      angular.forEach(menus, function (v, k) {
+        SVC.state[v] = true
+      })
+    },
+    state: {
+      room: true,
+      playlist: true,
+      search: true
+    },
+    getState: function (key) {
+      return SVC.state[key]
+    },
+    hide: function (key) {
+      SVC.state[key] = false
+    },
+    show: function (key) {
+      SVC.state[key] = true
+    },
+    hideRoom: function () {
+      var cardList = document.getElementById('card-list')
+      var room = document.getElementById('roombox')
+      room.style['left'] = '100%'
+      room.style['opacity'] = '0'
+      setTimeout(function () {
+        cardList.style['margin-top'] = '-92px'
+        SVC.state.room = false
+      }, 500)
+    },
+    showRoom: function () {
+      var cardList = document.getElementById('card-list')
+      var room = document.getElementById('roombox')
+      cardList.style['margin-top'] = '0px'
+      setTimeout(function () {
+        room.style['left'] = '0'
+        room.style['opacity'] = '1'
+        SVC.state.room = true
+      }, 300)
+    }
+
+  }
+
+  return SVC
+})
 app.factory('playSvc', function () {
   var shuffleMode = true
   var history = []
@@ -94,7 +149,7 @@ app.factory('playSvc', function () {
 app.config(function () {
 })
 
-app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
+app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
   $scope.youtube_id = undefined
   $scope.playerVars = {
     rel: 0,
@@ -212,6 +267,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc) {
   socket.on('playlistInit', function (data) {
     var list = data.list
     playSvc.list = list
+    menuSvc.hideRoom()
     $scope.$apply()
   })
 

@@ -36,7 +36,7 @@
 <body>
 
 
-<div id="wrapper c50">
+<div id="wrapper c50" ng-init="">
 
   <div id="header"class="c900">
     <div class="mui--text-light mui--text-title mui--align-vertical">woofer</div>
@@ -45,25 +45,30 @@
 
   <div id="content" class="mui-container-fluid mui-row">
     <!-- blog posts go here -->
-    <div id="sidebar" class="mui-col-sm-2 c300">
+    <div id="sidebar" class="mui-col-sm-2 c600">
       <div class="sidebar-header">
       </div>
 
       <div class="sidebar-body">
         <ul>
           <li>
+            <a ng-click="menuSvc.showRoom()">LOGIN</a>
+          </li>
+          <li>
+            <a ng-click="menuSvc.show('playlist')">PLAYLIST</a>
+          </li>
+          <li>
+            <a ng-click="menuSvc.show('search')">SEARCH</a>
           </li>
         </ul>
       </div>
     </div>
 
     <div id="card-list" class="mui-col-sm-7 mui-col-sm-offset-3"  ng-controller="youtubeCtrl">
-
-      <mui-panel class='card' ng-controller="roomCtrl" >
+      <mui-panel id="roombox" class='card room' ng-controller="roomCtrl" >
         <div class="card-body">
           <div class="room-frm">
             <form>
-
               <mui-input class="mui-col-sm-10" ng-model="room" hint="team"></mui-input>
               <mui-button class="mui-col-sm-2" size="small" variant="raised" ng-click="join()">참여하기</mui-button>
             </form>
@@ -100,11 +105,14 @@
       </mui-panel>
 
 
-      <mui-panel class='card playlist'>
+      <mui-panel id="playlist" class='card playlist' ng-show="menuSvc.getState('playlist')">
         <div class="card-header">
           <div class="mui--text-dark-secondary mui--text-body2">
             Play List
-            <mui-input class="right filter" ng-model="filterQuery" hint="filter"></mui-input>
+            <form mui-form-inline class="right filter" ng-submit="search()">
+              <mui-input class="inline" ng-model="filterQuery" hint="filter"></mui-input>
+              <a ng-click="menuSvc.hide('playlist')" class="close-btn"></a>
+            </form>
           </div>
         </div>
         <div class="mui-divider"></div>
@@ -126,13 +134,14 @@
       </mui-panel>
 
 
-      <mui-panel class='card search' ng-controller="searchCtrl">
+      <mui-panel id="search" class='card search' ng-controller="searchCtrl" ng-show="menuSvc.getState('search')">
         <div class="card-header">
           <div class="mui--text-dark-secondary mui--text-body2">
             검색결과
-            <form mui-form-inline class="right filter">
+            <form mui-form-inline class="right filter" ng-submit="search()">
               <mui-input ng-model="query" hint="검색어"></mui-input>
-              <mui-button size="small" variant="raised" ng-click="search()">search</mui-button>
+              <!-- <mui-button size="small" variant="raised" ng-click="">search</mui-button> -->
+              <a ng-click="menuSvc.hide('search')" class="close-btn"></a>
             </form>
           </div>
         </div>
