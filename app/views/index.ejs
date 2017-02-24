@@ -96,9 +96,9 @@
         <div class="card-footer">
           <mui-container fluid class="player-controller">
             <mui-row>
-              <!-- <mui-col xs="4" md="4"><div class="btn">{{'<<'}}</div></mui-col> -->
-              <mui-col xs="4" md="4"><div ng-class="shuffleModeClass()" ng-click="toggleSuffleMode()">{{' '}}</div></mui-col>
-              <mui-col xs="4" md="4"><div ng-click="reqNext()" class="btn">{{'>>'}}</div></mui-col>
+              <mui-col xs="8" md="8">{{playingItem}}</mui-col>
+              <mui-col xs="2" md="2"><div ng-class="shuffleModeClass()" ng-click="toggleSuffleMode()">{{' '}}</div></mui-col>
+              <mui-col xs="2" md="2"><div ng-click="reqNext()" class="btn">{{'>>'}}</div></mui-col>
             </mui-row>
           </mui-container>
         </div>

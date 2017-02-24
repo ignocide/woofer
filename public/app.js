@@ -151,6 +151,8 @@ app.config(function () {
 
 app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
   $scope.youtube_id = undefined
+  $scope.playingItem = null
+
   $scope.playerVars = {
     rel: 0,
     autoplay: 1,
@@ -218,9 +220,13 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
     return playSvc.id
   }, function () {
     playSvc.recordHistory(playSvc.id)
-    // if ($scope.bestPlayer) {
-    //   return $scope.bestPlayer.loadVideoById(playSvc.id)
-    // }
+    try{
+      $scope.playingItem = playSvc.list[playSvc.index].snippet.title
+    }
+    catch(err){
+      
+    }
+
     $scope.youtube_id = playSvc.id
   })
   $scope.$watch(function () {
