@@ -73,12 +73,16 @@
 
 
 
-      <mui-panel class='card'>
+      <mui-panel class='card' ng-init="playerMin = flase">
         <div class="card-header">
-          <div class="mui--text-dark-secondary mui--text-body2">재생중인 음악</div>
+          <div class="mui--text-dark-secondary mui--text-body2">재생중인 음악
+            <div class="right">
+              <a ng-click="playerMin = !playerMin" class="min-btn"></a>
+            </div>
+          </div>
         </div>
         <div class="mui-divider"></div>
-        <div class="card-body">
+        <div class="card-body" ng-show="!playerMin">
           <div class='player-wapper'>
               <youtube-video video-id="youtube_id" player-vars="playerVars" player="bestPlayer"></youtube-video>
           </div>
