@@ -196,7 +196,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
 
           let beforeItemId = playSvc.id
           $scope.play(null, nextIndex)
-          if (nextItem.id.videoId == beforeItemId) {
+          if (playSvc.list[nextIndex].id.videoId == beforeItemId) {
             player.playVideo()
           }
         }
@@ -220,11 +220,11 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
     return playSvc.id
   }, function () {
     playSvc.recordHistory(playSvc.id)
-    try{
+    try {
       $scope.playingItem = playSvc.list[playSvc.index].snippet.title
     }
-    catch(err){
-      
+    catch (err) {
+
     }
 
     $scope.youtube_id = playSvc.id
@@ -243,7 +243,23 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
   }
 
   $scope.reqNext = function () {
-    let nextIndex = playSvc.getShuffledIndex()
+    let nextIndex = null
+    if (playSvc.getShuffleMode()) {
+      nextIndex = playSvc.getShuffledIndex()
+    }
+    else {
+      if (playSvc.index != null) {
+        if (playSvc.index == playSvc.list.length - 1) {
+          nextIndex = 0
+        }
+        else {
+          nextIndex = playSvc.index + 1
+        }
+      }
+      else {
+        nextIndex = 0
+      }
+    }
     socket.emit('play', {index: nextIndex})
   }
   // player control funcs
