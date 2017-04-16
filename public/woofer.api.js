@@ -1,5 +1,5 @@
 'use strict'
-var RestfulSvc = angular.module('woofer.api', [])
+var RestfulSvc = angular.module('woofer.api', ['ngResource'])
 
 RestfulSvc.factory('RESTapi', ['$resource', function ($resource) {
     /**

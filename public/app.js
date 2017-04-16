@@ -1,6 +1,6 @@
 'use strict'
 var app = angular.module('woofer'
-    , ['woofer.config', 'mui', 'ngResource', 'woofer.api', 'youtube-embed' ])
+    , ['woofer.config', 'mui', 'woofer.api', 'youtube-embed', 'woofer.player' ])
 
 var socket = null
 app.run(function ($rootScope, conf, menuSvc) {
@@ -81,75 +81,12 @@ app.factory('menuSvc', function () {
 
   return SVC
 })
-app.factory('playSvc', function () {
-  var shuffleMode = true
-  var history = []
-  var HISTORYSIZE = 20
-
-  var getSampleIndexs = function (list) {
-    var MAXRESULT = history.length + 1
-    var indexs = []
-    var listLenght = list.length
-    var maxResult = MAXRESULT > listLenght ? listLenght : MAXRESULT
-
-    while (indexs.length < maxResult) {
-      var index = Math.floor(Math.random() * listLenght)
-      if (indexs.indexOf(index) == -1) {
-        indexs.push(index)
-      }
-    }
-
-    return indexs
-  }
-
-  // shuffle로직
-  // 1.봤던 음악의 아이디를 기록한다.
-  // 2.리스트에서 index들의 샘플을 가져온다. @getSampleIndexs
-  // 3.index를 토대로 안들은 음악의 인덱스를 리턴한다.
-  var getNextIndex = function () {
-    // 20개 이하일 경우
-    var nextIndex = null
-
-    var samples = getSampleIndexs(SVC.list)
-    for (var i = 0; nextIndex == null && i < samples.length; i++) {
-      if (history.indexOf(SVC.list[samples[i]].id.videoId) == -1 || i == samples.length) {
-        nextIndex = samples[i]
-      }
-    }
-    if (nextIndex == null) {
-      nextIndex = samples.shift()
-    }
-    return nextIndex
-  }
-  var SVC = {
-    list: [],
-    id: null,
-    index: null,
-    getShuffleMode: function () {
-      return shuffleMode
-    },
-    setShuffleMode: function (mode) {
-      shuffleMode = mode
-    },
-    getShuffledIndex: function () {
-      return getNextIndex()
-    },
-    recordHistory: function (beforeId) {
-      history.push(beforeId)
-      if (history.length > HISTORYSIZE) {
-        history.shift()
-      }
-    }
-  }
-
-  return SVC
-})
 
 // https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=YOUR_API_KEY
 app.config(function () {
 })
 
-app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
+app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSvc) {
   $scope.youtube_id = undefined
   $scope.playingItem = null
 
@@ -158,45 +95,45 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
     autoplay: 1,
     origin: 0
   }
-  $scope.playlist = playSvc.list
+  $scope.playlist = wooferPlayer.list
 
   $scope.shuffleModeClass = function () {
-    return playSvc.getShuffleMode() ? 'shuffleMode' : 'noShuffleMode'
+    return wooferPlayer.getShuffleMode() ? 'shuffleMode' : 'noShuffleMode'
   }
 
   $scope.toggleSuffleMode = function () {
     var data = {
-      suffleMode: !playSvc.getShuffleMode()
+      suffleMode: !wooferPlayer.getShuffleMode()
     }
     socket.emit('reqShuffleMode', data)
   }
 
   socket.on('reqShuffleMode', function (data) {
-    playSvc.setShuffleMode(data.suffleMode)
+    wooferPlayer.setShuffleMode(data.suffleMode)
     $scope.$apply()
   })
 
   $scope.$on('youtube.player.ended', function ($event, player) {
-    let index = playSvc.index
+    let index = wooferPlayer.index
 
     try {
-      if (playSvc.getShuffleMode()) {
-        let nextIndex = playSvc.getShuffledIndex()
+      if (wooferPlayer.getShuffleMode()) {
+        let nextIndex = wooferPlayer.getShuffledIndex()
         $scope.play(null, nextIndex)
       }
       else {
         if (index != null) {
           let nextIndex = null
-          if (index == playSvc.list.length - 1) {
+          if (index == wooferPlayer.list.length - 1) {
             nextIndex = 0
           }
           else {
             nextIndex = index + 1
           }
 
-          let beforeItemId = playSvc.id
+          let beforeItemId = wooferPlayer.id
           $scope.play(null, nextIndex)
-          if (playSvc.list[nextIndex].id.videoId == beforeItemId) {
+          if (wooferPlayer.list[nextIndex].id.videoId == beforeItemId) {
             player.playVideo()
           }
         }
@@ -215,24 +152,24 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
     player.playVideo()
   })
 
-  // playSvc watcher
+  // wooferPlayer watcher
   $scope.$watch(function () {
-    return playSvc.id
+    return wooferPlayer.id
   }, function () {
-    playSvc.recordHistory(playSvc.id)
+    wooferPlayer.recordHistory(wooferPlayer.id)
     try {
-      $scope.playingItem = playSvc.list[playSvc.index].snippet.title
+      $scope.playingItem = wooferPlayer.list[wooferPlayer.index].snippet.title
     }
     catch (err) {
 
     }
 
-    $scope.youtube_id = playSvc.id
+    $scope.youtube_id = wooferPlayer.id
   })
   $scope.$watch(function () {
-    return playSvc.list
+    return wooferPlayer.list
   }, function () {
-    $scope.playlist = playSvc.list
+    $scope.playlist = wooferPlayer.list
   })
 
   $scope.reqPlay = function (item) {
@@ -244,16 +181,16 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
 
   $scope.reqNext = function () {
     let nextIndex = null
-    if (playSvc.getShuffleMode()) {
-      nextIndex = playSvc.getShuffledIndex()
+    if (wooferPlayer.getShuffleMode()) {
+      nextIndex = wooferPlayer.getShuffledIndex()
     }
     else {
-      if (playSvc.index != null) {
-        if (playSvc.index == playSvc.list.length - 1) {
+      if (wooferPlayer.index != null) {
+        if (wooferPlayer.index == wooferPlayer.list.length - 1) {
           nextIndex = 0
         }
         else {
-          nextIndex = playSvc.index + 1
+          nextIndex = wooferPlayer.index + 1
         }
       }
       else {
@@ -268,13 +205,13 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
       return null
     }
     if (index != undefined) {
-      item = playSvc.list[index]
+      item = wooferPlayer.list[index]
     }
     else {
       index = null
     }
-    playSvc.id = item.id.videoId
-    playSvc.index = index
+    wooferPlayer.id = item.id.videoId
+    wooferPlayer.index = index
     if ($scope.$$phase != '$apply') {
       $scope.$apply()
     }
@@ -288,7 +225,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
 
   socket.on('playlistInit', function (data) {
     var list = data.list
-    playSvc.list = list
+    wooferPlayer.list = list
     menuSvc.hideRoom()
     $scope.$apply()
   })
@@ -298,16 +235,16 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, playSvc, menuSvc) {
   })
 
   socket.on('addVideo', function (data) {
-    playSvc.list.push(data.video)
+    wooferPlayer.list.push(data.video)
     $scope.$apply()
   })
 
   socket.on('delVideo', function (data) {
     var index = data.index
-    playSvc.list.splice(index, 1)
+    wooferPlayer.list.splice(index, 1)
 
-    if (playSvc.index >= index) {
-      playSvc.index--
+    if (wooferPlayer.index >= index) {
+      wooferPlayer.index--
     }
     $scope.$apply()
   })
@@ -323,7 +260,7 @@ app.controller('roomCtrl', function ($rootScope, $scope) {
   }
 })
 
-app.controller('searchCtrl', function ($rootScope, $scope, playSvc) {
+app.controller('searchCtrl', function ($rootScope, $scope, wooferPlayer) {
   $scope.query = ''
   $scope.resultList = []
 
@@ -362,8 +299,8 @@ app.controller('searchCtrl', function ($rootScope, $scope, playSvc) {
   }
 
   $scope.play = function (item) {
-    playSvc.id = item.id.videoId
-    playSvc.index = null
+    wooferPlayer.id = item.id.videoId
+    wooferPlayer.index = null
   }
 
   $scope.add = function (item) {
