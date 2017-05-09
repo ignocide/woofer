@@ -1,6 +1,6 @@
 'use strict'
 var app = angular.module('woofer'
-    , ['woofer.config', 'mui', 'woofer.api', 'youtube-embed', 'woofer.player' ])
+  , ['woofer.config', 'mui', 'woofer.api', 'youtube-embed', 'woofer.player' ])
 
 var socket = null
 app.run(function ($rootScope, conf, menuSvc) {
@@ -13,7 +13,7 @@ app.run(function ($rootScope, conf, menuSvc) {
     })
   }
 
-// 1. Load the JavaScript client library.
+  // 1. Load the JavaScript client library.
   gapi.load('client', initGapi)
   socket = io.connect()
 
@@ -83,8 +83,7 @@ app.factory('menuSvc', function () {
 })
 
 // https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=YOUR_API_KEY
-app.config(function () {
-})
+app.config(function () {})
 
 app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSvc) {
   $scope.youtube_id = undefined
@@ -120,14 +119,12 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
       if (wooferPlayer.getShuffleMode()) {
         let nextIndex = wooferPlayer.getShuffledIndex()
         $scope.play(null, nextIndex)
-      }
-      else {
+      }else {
         if (index != null) {
           let nextIndex = null
           if (index == wooferPlayer.list.length - 1) {
             nextIndex = 0
-          }
-          else {
+          }else {
             nextIndex = index + 1
           }
 
@@ -136,13 +133,11 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
           if (wooferPlayer.list[nextIndex].id.videoId == beforeItemId) {
             player.playVideo()
           }
-        }
-        else {
+        }else {
           $scope.play(null, 0)
         }
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err)
       return
     }
@@ -159,10 +154,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
     wooferPlayer.recordHistory(wooferPlayer.id)
     try {
       $scope.playingItem = wooferPlayer.list[wooferPlayer.index].snippet.title
-    }
-    catch (err) {
-
-    }
+    } catch (err) {}
 
     $scope.youtube_id = wooferPlayer.id
   })
@@ -183,17 +175,14 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
     let nextIndex = null
     if (wooferPlayer.getShuffleMode()) {
       nextIndex = wooferPlayer.getShuffledIndex()
-    }
-    else {
+    }else {
       if (wooferPlayer.index != null) {
         if (wooferPlayer.index == wooferPlayer.list.length - 1) {
           nextIndex = 0
-        }
-        else {
+        }else {
           nextIndex = wooferPlayer.index + 1
         }
-      }
-      else {
+      }else {
         nextIndex = 0
       }
     }
@@ -206,8 +195,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
     }
     if (index != undefined) {
       item = wooferPlayer.list[index]
-    }
-    else {
+    }else {
       index = null
     }
     wooferPlayer.id = item.id.videoId
@@ -219,8 +207,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
 
   $scope.del = function (item) {
     var index = $scope.playlist.indexOf(item)
-    if (!isNaN(index) && index > -1)
-    { socket.emit('delVideo', {index: index}) }
+    if (!isNaN(index) && index > -1) { socket.emit('delVideo', {index: index}) }
   }
 
   socket.on('playlistInit', function (data) {
@@ -287,8 +274,7 @@ app.controller('searchCtrl', function ($rootScope, $scope, wooferPlayer) {
         nextPageToken = response.nextPageToken
         if (beforeQuery == $scope.query) {
           $scope.resultList = $scope.resultList.concat(response.result.items)
-        }
-        else {
+        }else {
           $scope.resultList = response.result.items
         }
         $scope.$apply()
