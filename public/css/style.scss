@@ -1,3 +1,5 @@
+@import 'jekyll-theme-minimal.scss';
+
 /**
  * Body CSS
  */
@@ -71,11 +73,71 @@ $c50: #ECEFF1;
   content: '_'; /* UTF-8 symbol */
 }
 
-html,body {
-  height: 100%;
-  overflow: hidden;
+$num-cols: 12 !default;
+
+.row {
+  // Clear floating children
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .col {
+    float: left;
+    box-sizing: border-box;
+    min-height: 1px;
+
+    &.pad-left {
+      padding-left: 8px;
+    }
+
+    &[class*="push-"],
+    &[class*="pull-"] {
+      position: relative;
+    }
+
+    $i: 1;
+    @while $i <= $num-cols {
+      $perc: unquote((100 / ($num-cols / $i)) + "%");
+      &.s#{$i} {
+        width: $perc;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+      }
+      $i: $i + 1;
+    }
+
+    $i: 1;
+    @while $i <= $num-cols {
+      $perc: unquote((100 / ($num-cols / $i)) + "%");
+      &.offset-s#{$i} {
+        margin-left: $perc;
+      }
+      &.pull-s#{$i} {
+        right: $perc;
+      }
+      &.push-s#{$i} {
+        left: $perc;
+      }
+      $i: $i + 1;
+    }
+  }
 }
 
+.btn {
+  border: 1px solid $c300;
+  display: inline-block;
+  padding: 0 10px;
+  outline: 0;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  height: 45px;
+  border: none;
+}
 html,
 body,
 input,
@@ -84,6 +146,10 @@ buttons {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+body{
+  padding: initial;
 }
 
 a:link {
@@ -106,32 +172,12 @@ a:active {
   color: black;
 }
 
-/**
- * Sidebar CSS
- */
-#header {
-  padding: 11px 20px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 50px;
-  z-index: 1;
-  div{
-    display: inline-block;
-  }
 
+section{
+  border-left: 1px solid $c50;
+  min-height: 100vh;
+  padding-left: 45px;
 }
-
-
-/**
- * Content CSS
- */
- #content {
-   padding-top: 50px;
-   overflow-y: scroll;
-   overflow-x: hidden;
-   max-height: 100vh;
- }
 
 #sidebar{
   position: absolute;
@@ -185,14 +231,27 @@ a:active {
 }
 
 .room-frm {
-  background-color: $c50;
   padding-left: 5px;
 }
 
 
 .card {
+  box-sizing: border-box;
+  border: 1px solid $c50;
   .card-header{
-
+    padding: 5px 10px;
+    border-bottom: 1px solid $c50;
+    form{
+      height: 32px;
+      box-sizing: border-box;
+      input{
+        border: none;
+        border-bottom: 3px solid $c50;
+        box-sizing: border-box;
+        height: 30px;
+        padding: 5px;
+      }
+    }
   }
   .card-body{
     padding-top: 5px;
@@ -206,15 +265,16 @@ a:active {
 }
 
 #roombox{
-  -webkit-transition: all ease-in-out 0.5s !important;
-  transition: all ease-in-out 0.5s !important;
-  -moz-transition: all ease-in-out 0.5s !important;
-  -o-transition: all ease-in-out 0.5s !important;
+  form{
+    height: 50px;
+    input,button{
+      height:50px;
+    }
+    input{
+      font-size: 20px;
+    }
+  }
 
-  position: relative;
-  left:0;
-  top:0;
-  opacity: 1;
 }
 
 
@@ -234,7 +294,8 @@ a:active {
     font-size: 20px;
     background-color: $c200;
     text-align: center;
-    height: 30px;
+    border: none;
+    display: block;
   }
   .shuffleMode{
     height: 30px;
@@ -260,16 +321,17 @@ a:active {
   .card-header{
     .filter {
       display: inline-block;
-      margin-top: -8px;
+      margin-top: -3px;
     }
   }
 
 
   .card-body{
-    padding: 10px;
+    width:100%;
     max-height: 500px;
     overflow: auto;
     ul{
+      width:100%;
       padding: 0px;
     }
 
@@ -309,10 +371,15 @@ a:active {
         top: 0px;
         height: 75px;
         padding-top: 15px;
+        text-align: center;
 
-        button{
-          margin-left: auto;
-          margin-right: auto;
+        button, .btn-item{
+          @extend .btn;
+          height:22px;
+          width: 22px;
+          padding: 0px;
+          background-color: $c50;
+          color: black;
         }
       }
     }
@@ -323,14 +390,16 @@ a:active {
 .search{
   .card-header{
       .filter {
-        margin-top: -7px;
+        margin-top: -3px;
       }
   }
   .card-body{
-    padding: 10px;
     max-height: 500px;
     overflow: auto;
+    width:100%;
+
     ul{
+      width:100%;
       padding: 0px;
     }
 
@@ -370,10 +439,15 @@ a:active {
         top: 0px;
         height: 75px;
         padding-top: 15px;
+        text-align: center;
 
-        button{
-          margin-left: auto;
-          margin-right: auto;
+        button, .btn-item{
+          @extend .btn;
+          height:22px;
+          width: 22px;
+          padding: 0px;
+          background-color: $c50;
+          color: black;
         }
       }
     }

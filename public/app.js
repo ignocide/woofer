@@ -1,6 +1,6 @@
 'use strict'
 var app = angular.module('woofer'
-  , ['woofer.config', 'mui', 'woofer.api', 'youtube-embed', 'woofer.player' ])
+  , ['woofer.config', 'woofer.api', 'youtube-embed', 'woofer.player' ])
 
 var socket = null
 app.run(function ($rootScope, conf, menuSvc) {
@@ -62,7 +62,6 @@ app.factory('menuSvc', function () {
       room.style['left'] = '100%'
       room.style['opacity'] = '0'
       setTimeout(function () {
-        cardList.style['margin-top'] = '-92px'
         SVC.state.room = false
       }, 500)
     },
