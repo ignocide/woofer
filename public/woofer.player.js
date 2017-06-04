@@ -64,3 +64,14 @@ WooperPlayer.factory('wooferPlayer', function () {
 
   return SVC
 })
+
+WooperPlayer.factory('extraList', function () {
+  var SVC = {
+    awesomeList: [],
+    awesomeListToken: null,
+    recentList: [],
+    recentListToken: null
+  }
+
+  return SVC
+})

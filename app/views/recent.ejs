@@ -1,0 +1,24 @@
+<div id="playlist" class='card playlist' ng-controller="recentCtrl" ng-init="setList()">
+  <div class="card-header">
+    <div class="mui--text-dark-secondary mui--text-body2">
+      youtube top
+      <button size="small" class="c200 right btn" ng-click="loadList()">더 검색하기</button>
+    </div>
+  </div>
+  <div class="mui-divider"></div>
+  <div class="card-body">
+    <ul>
+      <li class="result-item" data-ng-repeat="item in recentList | filter:filterQuery track by $index">
+        <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+        <div class='summary' ng-click="play(item)">
+          <a>
+            {{item.snippet.title}}
+          </a>
+        </div>
+        <div class="btn-add-wrapper">
+          <button size="small" class="c200" ng-click="add(item)">+</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

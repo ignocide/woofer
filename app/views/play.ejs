@@ -1,0 +1,29 @@
+<div id="search" class='card search' ng-controller="searchCtrl" ng-show="menuSvc.getState('search')">
+  <div class="card-header">
+    <div class="mui--text-dark-secondary mui--text-body2">
+      검색결과
+      <form mui-form-inline class="right filter" ng-submit="search()">
+        <input ng-model="query" hint="검색어"></input>
+      </form>
+    </div>
+  </div>
+  <div class="mui-divider"></div>
+  <div class="card-body">
+    <ul>
+      <li class="result-item" data-ng-repeat="item in resultList">
+        <img data-ng-src="{{item.snippet.thumbnails.default.url}}">
+        <div class='summary' ng-click="play(item)">
+          <a>
+            {{item.snippet.title}}
+          </a>
+        </div>
+        <div class="btn-add-wrapper">
+          <!-- <mui-button size="small" color="primary" variant="fab" ng-click="add(item)">+</mui-button> -->
+          <button size="small" class="c200" ng-click="add(item)">+</button>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+<hr/>

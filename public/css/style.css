@@ -299,7 +299,7 @@ img {
 header {
   width: 270px;
   float: left;
-  position: fixed;
+  position: absolute;
   -webkit-font-smoothing: subpixel-antialiased; }
 
 header ul {
@@ -710,7 +710,8 @@ section {
   margin: 0px; }
 
 .room-frm {
-  padding-left: 5px; }
+  padding-left: 5px;
+  margin-bottom: 20px; }
 
 .card {
   box-sizing: border-box;
@@ -718,6 +719,10 @@ section {
   .card .card-header {
     padding: 5px 10px;
     border-bottom: 1px solid #ECEFF1; }
+    .card .card-header .btn, .card .card-header .playlist .card-body .result-item .btn-add-wrapper button, .playlist .card-body .result-item .btn-add-wrapper .card .card-header button, .card .card-header .playlist .card-body .result-item .btn-add-wrapper .btn-item, .playlist .card-body .result-item .btn-add-wrapper .card .card-header .btn-item, .card .card-header .search .card-body .result-item .btn-add-wrapper button, .search .card-body .result-item .btn-add-wrapper .card .card-header button, .card .card-header .search .card-body .result-item .btn-add-wrapper .btn-item, .search .card-body .result-item .btn-add-wrapper .card .card-header .btn-item {
+      height: 32px;
+      min-width: 32px;
+      margin: -5px; }
     .card .card-header form {
       height: 32px;
       box-sizing: border-box; }
@@ -862,3 +867,28 @@ section {
         padding: 0px;
         background-color: #ECEFF1;
         color: black; }
+
+header ul.route {
+  width: 99% !important;
+  overflow: auto;
+  height: auto; }
+  header ul.route li {
+    width: 100% !important;
+    border-bottom: 1px solid;
+    height: auto; }
+    header ul.route li a {
+      padding: 5px 20px;
+      text-align: left;
+      font-size: 15px;
+      text-decoration: uppercase;
+      height: auto; }
+  header ul.route li + li {
+    border-bottom: none; }
+
+input {
+  border: none;
+  border-bottom: 1px solid;
+  box-shadow: none; }
+  input:focus {
+    background-color: none;
+    border: none; }
