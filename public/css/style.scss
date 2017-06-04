@@ -177,6 +177,12 @@ section{
   border-left: 1px solid $c50;
   min-height: 100vh;
   padding-left: 45px;
+  padding-right: 45px;
+
+  @media print, screen and (max-width: 960px){
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
 
 #sidebar{

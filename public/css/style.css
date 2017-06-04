@@ -663,7 +663,12 @@ a:active {
 section {
   border-left: 1px solid #ECEFF1;
   min-height: 100vh;
-  padding-left: 45px; }
+  padding-left: 45px;
+  padding-right: 45px; }
+  @media print, screen and (max-width: 960px) {
+    section {
+      padding-left: 0px;
+      padding-right: 0px; } }
 
 #sidebar {
   position: absolute;
