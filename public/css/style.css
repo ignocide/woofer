@@ -467,7 +467,7 @@ footer {
 
 .close-btn:after {
   width: 20px;
-  content: '×';
+  content: '횞';
   /* UTF-8 symbol */ }
 
 .min-btn:after {
@@ -892,3 +892,6 @@ input {
   input:focus {
     background-color: none;
     border: none; }
+
+.youtube-card .card-body {
+  overflow: hidden; }

@@ -58,7 +58,6 @@ app.config(function ($routeProvider,$controllerProvider) {
 })
 
 var socket = null
-var gapiTasks = []
 app.run(function ($rootScope, conf, menuSvc) {
   var initGapi = function () {
     // 2. Initialize the JavaScript client library.
@@ -115,7 +114,6 @@ app.factory('menuSvc', function () {
     hideRoom: function () {
       var cardList = document.getElementById('card-list')
       var room = document.getElementById('roombox')
-      room.style['left'] = '100%'
       room.style['opacity'] = '0'
       setTimeout(function () {
         SVC.state.room = false
@@ -126,7 +124,6 @@ app.factory('menuSvc', function () {
       var room = document.getElementById('roombox')
       cardList.style['margin-top'] = '0px'
       setTimeout(function () {
-        room.style['left'] = '0'
         room.style['opacity'] = '1'
         SVC.state.room = true
       }, 300)
@@ -136,9 +133,6 @@ app.factory('menuSvc', function () {
 
   return SVC
 })
-
-// https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=YOUR_API_KEY
-app.config(function () {})
 
 app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSvc) {
   $scope.youtube_id = undefined
@@ -293,13 +287,33 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
 })
 
 app.controller('roomCtrl', function ($rootScope, $scope) {
+  var tryJoin = function(){
+    setTimeout(function () {
+      if($scope.room !== '' && $scope.loginState){
+        $scope.join()
+      }
+      else{
+        return false
+      }
+      tryJoin()
+    },5000)
+  }
+
   $scope.room = ''
+  $scope.loginState = false
   $scope.join = function () {
     var data = {
       room: $scope.room
     }
     socket.emit('join', data)
   }
+
+  socket.on('joinCallback',function(){
+    $scope.loginState = true
+  })
+  socket.on('disconnect',function(){
+    tryJoin()
+  })
 })
 
 app.controller('searchCtrl', function ($rootScope, $scope, wooferPlayer) {

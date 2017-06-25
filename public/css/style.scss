@@ -499,3 +499,9 @@ input{
     border: none;
   }
 }
+
+.youtube-card{
+  .card-body{
+    overflow: hidden;
+  }
+}

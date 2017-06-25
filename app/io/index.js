@@ -18,7 +18,8 @@ var IO = function (io) {
         team.leave,
         team.join,
         playlist.list,
-        playlist.sendList
+        playlist.sendList,
+        api.callback('joinCallback')
       )
     })
 
