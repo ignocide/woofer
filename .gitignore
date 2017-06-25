@@ -10,3 +10,4 @@ config/config.js
 gulpfile.js
 project.json
 app-product.json
+.idea
