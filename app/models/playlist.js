@@ -8,8 +8,7 @@ module.exports = function (sequelize, DataTypes) {
     thumbnail: DataTypes.STRING
   }, {
     classMethods: {
-      associate: function (models) {
-      }
+      associate: function (models) {}
     }
   })
 

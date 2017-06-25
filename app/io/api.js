@@ -17,9 +17,9 @@ api.runner = function () {
   return Promise.mapSeries(tasks, function (task) {
     return task(socket, io, data)
   })
-  .then(function () {
-    return Promise.resolve(data)
-  })
+    .then(function () {
+      return Promise.resolve(data)
+    })
 }
 
 api.teamCallback = function (funcName) {

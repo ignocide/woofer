@@ -2,44 +2,44 @@
 var app = angular.module('woofer'
   , ['woofer.config', 'woofer.api', 'youtube-embed', 'woofer.player', 'ngRoute'])
 
-app.config(function ($routeProvider,$controllerProvider) {
-  app.registerCtrl = $controllerProvider.register;
+app.config(function ($routeProvider, $controllerProvider) {
+  app.registerCtrl = $controllerProvider.register
 
-  function loadScript(path) {
+  function loadScript (path) {
     var result = $.Deferred(),
-      script = document.createElement("script");
-    script.async = "async";
-    script.type = "text/javascript";
-    script.src = path;
+      script = document.createElement('script')
+    script.async = 'async'
+    script.type = 'text/javascript'
+    script.src = path
     script.onload = script.onreadystatechange = function (_, isAbort) {
       if (!script.readyState || /loaded|complete/.test(script.readyState)) {
         if (isAbort)
-          result.reject();
+          result.reject()
         else
-          result.resolve();
+          result.resolve()
       }
-    };
-    script.onerror = function () { result.reject(); };
-    document.querySelector("head").appendChild(script);
-    return result.promise();
+    }
+    script.onerror = function () { result.reject(); }
+    document.querySelector('head').appendChild(script)
+    return result.promise()
   }
 
-  function loader(scripts){
+  function loader (scripts) {
     return {
-      load: function($q){
+      load: function ($q) {
         scripts = scripts instanceof Array ? scripts : [scripts]
         var deferred = $q.defer(),
-          map = scripts.map(function(name) {
-            return loadScript('controllers/'+name+".js");
-          });
+          map = scripts.map(function (name) {
+            return loadScript('controllers/' + name + '.js')
+          })
 
-        $q.all(map).then(function(r){
-          deferred.resolve();
-        });
+        $q.all(map).then(function (r) {
+          deferred.resolve()
+        })
 
-        return deferred.promise;
+        return deferred.promise
       }
-    };
+    }
   }
 
   $routeProvider
@@ -137,7 +137,10 @@ app.factory('menuSvc', function () {
 app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSvc) {
   $scope.youtube_id = undefined
   $scope.playingItem = null
-
+  $scope.isView = function(){
+    console.log($scope.view)
+    return true
+  }
   $scope.playerVars = {
     rel: 0,
     autoplay: 1,
@@ -287,16 +290,17 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
 })
 
 app.controller('roomCtrl', function ($rootScope, $scope) {
-  var tryJoin = function(){
+  var RETRY_TIME = 5000
+
+  var tryJoin = function () {
     setTimeout(function () {
-      if($scope.room !== '' && $scope.loginState){
+      if ($scope.room !== '' && $scope.loginState) {
         $scope.join()
-      }
-      else{
+      }else {
         return false
       }
       tryJoin()
-    },5000)
+    }, RETRY_TIME)
   }
 
   $scope.room = ''
@@ -308,10 +312,10 @@ app.controller('roomCtrl', function ($rootScope, $scope) {
     socket.emit('join', data)
   }
 
-  socket.on('joinCallback',function(){
+  socket.on('joinCallback', function () {
     $scope.loginState = true
   })
-  socket.on('disconnect',function(){
+  socket.on('disconnect', function () {
     tryJoin()
   })
 })
@@ -327,7 +331,6 @@ app.controller('searchCtrl', function ($rootScope, $scope, wooferPlayer) {
   $scope.search = function () {
     if ($scope.query != '' && !loading) {
       loading = true
-
       var reqOpt = {
         q: $scope.query,
         part: 'snippet',

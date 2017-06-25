@@ -8,30 +8,30 @@ var PLAYLIST = function () {}
 PLAYLIST.prototype.add = function (socket, io, data) {
   let video = data.video
   return redis_playlist.add(socket.room, video)
-  .then(function () {
-    data.locals.addedVideo = video
+    .then(function () {
+      data.locals.addedVideo = video
 
-    return Promise.resolve()
-  })
+      return Promise.resolve()
+    })
 }
 
 PLAYLIST.prototype.del = function (socket, io, data) {
   let index = data.index
 
   return redis_playlist.list(socket.room)
-  .then(function (list) {
-    list.splice(index, 1)
-    data.locals.delIndex = index
-    return redis_playlist.set(socket.room, list)
-  })
+    .then(function (list) {
+      list.splice(index, 1)
+      data.locals.delIndex = index
+      return redis_playlist.set(socket.room, list)
+    })
 }
 
 PLAYLIST.prototype.list = function (socket, io, data) {
   return redis_playlist.list(socket.room)
-  .then(function (list) {
-    data.locals.list = list
-    return Promise.resolve()
-  })
+    .then(function (list) {
+      data.locals.list = list
+      return Promise.resolve()
+    })
 }
 
 PLAYLIST.prototype.sendListToTeam = function (socket, io, data) {

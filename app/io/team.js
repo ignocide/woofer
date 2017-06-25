@@ -2,8 +2,7 @@
 
 const Promise = require('bluebird')
 
-var TEAM = function () {
-}
+var TEAM = function () {}
 
 TEAM.prototype.leave = function (socket, io, data) {
   return new Promise(function (resolve, reject) {
@@ -12,14 +11,12 @@ TEAM.prototype.leave = function (socket, io, data) {
       socket.leave(socket.room, function (err) {
         if (err) {
           reject(err)
-        }
-        else {
+        }else {
           delete socket.room
           resolve()
         }
       })
-    }
-    else {
+    }else {
       resolve()
     }
   })

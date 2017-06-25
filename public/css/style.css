@@ -465,6 +465,9 @@ footer {
 .inlne {
   display: inline-block; }
 
+.align-center {
+  text-align: center; }
+
 .close-btn:after {
   width: 20px;
   content: '횞';
@@ -748,10 +751,16 @@ section {
     font-size: 20px; }
 
 .player-wapper {
-  width: 100%; }
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  position: relative; }
   .player-wapper iframe {
-    max-width: 100% !important;
-    width: 100% !important; }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
 
 .player-controller .btn, .player-controller .playlist .card-body .result-item .btn-add-wrapper button, .playlist .card-body .result-item .btn-add-wrapper .player-controller button, .player-controller .playlist .card-body .result-item .btn-add-wrapper .btn-item, .playlist .card-body .result-item .btn-add-wrapper .player-controller .btn-item, .player-controller .search .card-body .result-item .btn-add-wrapper button, .search .card-body .result-item .btn-add-wrapper .player-controller button, .player-controller .search .card-body .result-item .btn-add-wrapper .btn-item, .search .card-body .result-item .btn-add-wrapper .player-controller .btn-item {
   height: 30px;
@@ -782,7 +791,6 @@ section {
   margin-top: -3px; }
 .playlist .card-body {
   width: 100%;
-  max-height: 500px;
   overflow: auto; }
   .playlist .card-body ul {
     width: 100%;
@@ -826,7 +834,6 @@ section {
 .search .card-header .filter {
   margin-top: -3px; }
 .search .card-body {
-  max-height: 500px;
   overflow: auto;
   width: 100%; }
   .search .card-body ul {
@@ -895,3 +902,13 @@ input {
 
 .youtube-card .card-body {
   overflow: hidden; }
+
+.tab {
+  padding: 15px;
+  border: 1px solid #ECEFF1;
+  color: #546E7A;
+  font-weight: bold;
+  cursor: pointer; }
+  .tab.active {
+    background-color: #263238;
+    color: white; }
