@@ -2,7 +2,12 @@
 var WooperPlayer = angular.module('woofer.player', [])
 
 WooperPlayer.factory('wooferPlayer', function () {
-  var shuffleMode = true
+  var modeDic = {
+    SHUFFLE: 'shuffle',
+    NONE: 'none',
+    REPEAT: 'repeat'
+  }
+  var playMode = modeDic.SHUFFLE
   var history = []
   var HISTORYSIZE = 20
 
@@ -45,11 +50,11 @@ WooperPlayer.factory('wooferPlayer', function () {
     list: [],
     id: null,
     index: null,
-    getShuffleMode: function () {
-      return shuffleMode
+    getPlayMode: function () {
+      return playMode
     },
-    setShuffleMode: function (mode) {
-      shuffleMode = mode
+    setPlayMode: function (mode) {
+      playMode = mode
     },
     getShuffledIndex: function () {
       return getNextIndex()

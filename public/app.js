@@ -149,18 +149,39 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
   $scope.playlist = wooferPlayer.list
 
   $scope.shuffleModeClass = function () {
-    return wooferPlayer.getShuffleMode() ? 'shuffleMode' : 'noShuffleMode'
+    switch (wooferPlayer.getPlayMode()){
+      case 'shuffle':
+        return  'shuffleMode'
+      case 'repeat':
+        return 'repeatMode'
+      case 'none':
+        return 'noShuffleMode'
+    }
   }
 
   $scope.toggleSuffleMode = function () {
+    var mode = null
+    switch(wooferPlayer.getPlayMode()){
+      case 'shuffle':
+        mode = 'repeat'
+        break;
+      case 'repeat':
+        mode = 'none'
+        break;
+      case 'none':
+        mode= 'shuffle'
+        break
+    }
+
     var data = {
-      suffleMode: !wooferPlayer.getShuffleMode()
+      suffleMode:mode
     }
     socket.emit('reqShuffleMode', data)
   }
 
   socket.on('reqShuffleMode', function (data) {
-    wooferPlayer.setShuffleMode(data.suffleMode)
+    console.log(data)
+    wooferPlayer.setPlayMode(data.suffleMode)
     $scope.$apply()
   })
 
@@ -168,10 +189,15 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
     let index = wooferPlayer.index
 
     try {
-      if (wooferPlayer.getShuffleMode()) {
+      var playMode = wooferPlayer.getPlayMode()
+      if (playMode == 'shuffle') {
         let nextIndex = wooferPlayer.getShuffledIndex()
         $scope.play(null, nextIndex)
-      }else {
+      }
+      else if(playMode == 'repeat'){
+        player.playVideo()
+      }
+      else {
         if (index != null) {
           let nextIndex = null
           if (index == wooferPlayer.list.length - 1) {
@@ -225,7 +251,7 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
 
   $scope.reqNext = function () {
     let nextIndex = null
-    if (wooferPlayer.getShuffleMode()) {
+    if (wooferPlayer.getPlayMode()) {
       nextIndex = wooferPlayer.getShuffledIndex()
     }else {
       if (wooferPlayer.index != null) {
