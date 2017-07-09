@@ -137,7 +137,7 @@ app.factory('menuSvc', function () {
 app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSvc) {
   $scope.youtube_id = undefined
   $scope.playingItem = null
-  $scope.isView = function(){
+  $scope.isView = function () {
     console.log($scope.view)
     return true
   }
@@ -149,9 +149,9 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
   $scope.playlist = wooferPlayer.list
 
   $scope.shuffleModeClass = function () {
-    switch (wooferPlayer.getPlayMode()){
+    switch (wooferPlayer.getPlayMode()) {
       case 'shuffle':
-        return  'shuffleMode'
+        return 'shuffleMode'
       case 'repeat':
         return 'repeatMode'
       case 'none':
@@ -161,20 +161,20 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
 
   $scope.toggleSuffleMode = function () {
     var mode = null
-    switch(wooferPlayer.getPlayMode()){
+    switch (wooferPlayer.getPlayMode()) {
       case 'shuffle':
         mode = 'repeat'
-        break;
+        break
       case 'repeat':
         mode = 'none'
-        break;
+        break
       case 'none':
-        mode= 'shuffle'
+        mode = 'shuffle'
         break
     }
 
     var data = {
-      suffleMode:mode
+      suffleMode: mode
     }
     socket.emit('reqShuffleMode', data)
   }
@@ -194,10 +194,9 @@ app.controller('youtubeCtrl', function ($rootScope, $scope, wooferPlayer, menuSv
         let nextIndex = wooferPlayer.getShuffledIndex()
         $scope.play(null, nextIndex)
       }
-      else if(playMode == 'repeat'){
+      else if (playMode == 'repeat') {
         player.playVideo()
-      }
-      else {
+      }else {
         if (index != null) {
           let nextIndex = null
           if (index == wooferPlayer.list.length - 1) {
@@ -319,14 +318,14 @@ app.controller('roomCtrl', function ($rootScope, $scope) {
   var RETRY_TIME = 5000
 
   var tryJoin = function () {
-    setTimeout(function () {
-      if ($scope.room !== '' && $scope.loginState) {
-        $scope.join()
-      }else {
-        return false
-      }
-      tryJoin()
-    }, RETRY_TIME)
+    // setTimeout(function () {
+    //   if ($scope.room !== '' && $scope.loginState) {
+    $scope.join()
+  //   }else {
+  //     return false
+  //   }
+  //   tryJoin()
+  // }, RETRY_TIME)
   }
 
   $scope.room = ''
