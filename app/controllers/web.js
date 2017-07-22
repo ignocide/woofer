@@ -1,12 +1,12 @@
 var express = require('express'),
-  router = express.Router()
+  router = express.Router(),
+  config = require('../../config/config.js')
 
 module.exports = function (app) {
   app.use('/', router)
 }
 
 router.get('/play', function (req, res) {
-  console.log('!!')
   res.render('play')
 })
 
@@ -19,5 +19,5 @@ router.get('/recent', function (req, res) {
 })
 
 router.get('/', function (req, res, next) {
-  res.render('index')
+  res.render('index', config)
 })
